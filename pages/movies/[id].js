@@ -1,2 +1,25 @@
 // [id].js should list movie info for a particular film by movie_id
-//All lookups should happen in the API - any use of fetch in your pages/ directory should be pointing at URLs in your API.
+export default function MovieId() {
+  return <h1>Films by ID</h1>;
+}
+// export const getServerSideProps = async () => {
+//   return { paths: [{ params: { movieId: "" } }], fallback: true };
+// };
+
+export async function getServerSideProps() {
+  const getMovies = async () => {
+    const response = await fetch(
+      "http://localhost:3000/pages/api/movies/movie/",
+      {
+        headers: {
+          "Content-Type": "",
+        },
+        //   body: JSON(genre),
+      }
+    );
+    const movies = await response.json();
+    return movies;
+  };
+  const movies = await getMovies();
+  return { props: { movies: movies } };
+}
